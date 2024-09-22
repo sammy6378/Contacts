@@ -3,6 +3,8 @@ const contactsModel = require("../models/contactModel");
 const route = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'})
 
 //cloudinary config
 cloudinary.config({
@@ -11,27 +13,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//?GET contacts/list
-route.get("/list", authMiddleware, async (req, res) => {
-  try {
-    const userId = req.userId;
-    const data = await contactsModel.find({ userId });
-    if (!userId) {
-      return res.json({ success: false, message: "User does not exist" });
-    }
-
-    if (!contacts) {
-      return res.json({ success: false, message: "Contact List empty" });
-    }
-
-    res.json({ success: true, data });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 //?POST contacts/add
-route.post("/add", authMiddleware, async (req, res) => {
+route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
   try {
     const { name, email, number, address } = req.body;
     if (name.trim() === "" || email.trim() === "" || address.trim() === "") {
@@ -62,5 +45,21 @@ route.post("/add", authMiddleware, async (req, res) => {
     console.log(error);
   }
 });
+
+
+//?GET contacts/list
+route.get("/list", authMiddleware, async (req, res) => {
+    try {
+      const userId = req.userId;  
+      const data = await contactsModel.find({ userId });
+      if (!data) {
+        return res.json({ success: false, message: "Contact List empty" });
+      }
+  
+      res.json({ success: true, data });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 module.exports = route;
