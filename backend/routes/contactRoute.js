@@ -2,6 +2,9 @@ const express = require("express");
 const contactsModel = require("../models/contactModel");
 const route = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
+const cloudinary = require('cloudinary').v2;
+
+//cloudinary config
 
 //?GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
