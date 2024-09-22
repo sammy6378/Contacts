@@ -8,7 +8,25 @@ const jwt = require('jsonwebtoken');
 //POST auth/login
 route.post('/login', async(req, res) => {
     try {
-        
+        const {username, password} = req.body;
+        const findUser = await authModel.find({username})
+        if(!findUser) {
+            return res.json({success: false, message: "User does not exist"})
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if(!isPasswordValid) {
+            return res.json({success: false, message: "Password is Invalid.Please try again"})
+        }
+
+        const user = await authModel.create({
+            username, 
+            password
+        })
+
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
+
+        res.json({success: true, token, message: "Login Successfull"})
     } catch (error) {
         
     }
@@ -41,7 +59,7 @@ route.post('/register', async(req, res) => {
         
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
 
-        res.json({success: true, token});
+        res.json({success: true, token, message: "Register Successfull"});
         
     } catch (error) {
         if(error.code === 11000) {
