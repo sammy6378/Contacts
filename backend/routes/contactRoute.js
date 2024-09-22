@@ -7,11 +7,10 @@ const multer = require('multer');
 
 //set up multer
 const storage = multer.diskStorage({
-    destination: "uploads",
-    filename: (req, file, cb) => {
-      return cb(null, `${Date.now()}${file.originalname.trim()}`);
-    },
-  });
+    filename: function(req, file, cb) {
+        cb(null, `${Date.now()}${file.originalname.trim()}`)
+    }
+})
 
 const upload = multer({storage: storage})
 
