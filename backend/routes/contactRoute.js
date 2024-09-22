@@ -30,11 +30,11 @@ route.post('/add', authMiddleware, async(req, res) => {
             return res.json({success: false, message: "Check for empty input fields"});
         }
 
-        if(number.length !== 9) {
-            res.json({success: false, message: 'Number should be 9 digits long'});
+        const fullNumber = "+" + "254" + number;
+        
+        if(fullNumber.length !== 13) {
+           return res.json({success: false, message: 'Number should be 9 digits long'});
         }
-
-        const fullNumber = "+254" + number;
 
         const data = await contactsModel.create({
             name,
@@ -45,7 +45,7 @@ route.post('/add', authMiddleware, async(req, res) => {
 
         res.json({success: true, data, message: "Contact added succesfully"});
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
 })
 
