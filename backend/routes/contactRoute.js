@@ -50,7 +50,11 @@ route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
 //?GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
     try {
-      const userId = req.userId;  
+      const userId = req.userId;
+      if (!userId) {
+        return res.json({ success: false, message: "User does not exist" });
+      }
+  
       const data = await contactsModel.find({ userId });
       if (!data) {
         return res.json({ success: false, message: "Contact List empty" });
