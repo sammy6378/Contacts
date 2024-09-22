@@ -61,6 +61,24 @@ route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
   }
 });
 
+//POST contacts/edit/:id
+route.post("/edit/:id", authMiddleware, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+})
+
+//POST contacts/delete/:id
+route.post('/delete/:id', authMiddleware, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+})
+
 //? GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
   try {
