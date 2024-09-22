@@ -5,32 +5,29 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 //POST auth/login
 route.post('/login', async(req, res) => {
     try {
         const {username, password} = req.body;
-        const findUser = await authModel.find({username})
-        if(!findUser) {
-            return res.json({success: false, message: "User does not exist"})
+        const user = await authModel.findOne({username});
+        if(!user) {
+            return res.json({success: false, message: "User not found"})
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if(!isPasswordValid) {
-            return res.json({success: false, message: "Password is Invalid.Please try again"})
+        const isValidPassword = bcrypt.compare(password, user.password);
+        if(!isValidPassword) {
+            return res.json({success: false, message: "Password not found"});
         }
-
-        const user = await authModel.create({
-            username, 
-            password
-        })
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
-
-        res.json({success: true, token, message: "Login Successfull"})
-    } catch (error) {
+        res.json({success: true, message: "Login Successful", token})
         
+    } catch (error) {
+        console.log(error)
     }
 })
+
 
 //POST auth/register
 route.post('/register', async(req, res) => {
