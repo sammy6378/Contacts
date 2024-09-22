@@ -5,26 +5,29 @@ const authMiddleware = require("../middleware/authMiddleware");
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
-//set up multer
+//* Set up multer
 const storage = multer.diskStorage({
     filename: function(req, file, cb) {
         cb(null, `${Date.now()}${file.originalname.trim()}`)
     }
-})
+});
 
-const upload = multer({storage: storage})
+const upload = multer({storage: storage});
 
-
-//cloudinary config
+//* Cloudinary config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//?POST contacts/add
+//? POST contacts/add
 route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
   try {
+    //~ Upload image to Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(req.file.path);
+    
+    //~ Check if any required field is missing
     const { name, email, number, address } = req.body;
     if (name.trim() === "" || email.trim() === "" || address.trim() === "") {
       return res.json({
@@ -33,8 +36,8 @@ route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
       });
     }
 
+    //~ Format phone number
     const fullNumber = "+" + "254" + number;
-
     if (fullNumber.length !== 13) {
       return res.json({
         success: false,
@@ -42,37 +45,39 @@ route.post("/add", authMiddleware, upload.single('image'), async (req, res) => {
       });
     }
 
+    //~ Create contact and store the image URL from Cloudinary
     const data = await contactsModel.create({
       name,
       email,
       number: fullNumber,
       address,
+      image: uploadResult.secure_url //& Store the Cloudinary image URL
     });
 
-    res.json({ success: true, data, message: "Contact added succesfully" });
+    res.json({ success: true, data, message: "Contact added successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "An error occurred" });
+  }
+});
+
+//? GET contacts/list
+route.get("/list", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.json({ success: false, message: "User does not exist" });
+    }
+
+    const data = await contactsModel.find({ userId });
+    if (!data) {
+      return res.json({ success: false, message: "Contact List empty" });
+    }
+
+    res.json({ success: true, data });
   } catch (error) {
     console.log(error);
   }
 });
-
-
-//?GET contacts/list
-route.get("/list", authMiddleware, async (req, res) => {
-    try {
-      const userId = req.userId;
-      if (!userId) {
-        return res.json({ success: false, message: "User does not exist" });
-      }
-  
-      const data = await contactsModel.find({ userId });
-      if (!data) {
-        return res.json({ success: false, message: "Contact List empty" });
-      }
-  
-      res.json({ success: true, data });
-    } catch (error) {
-      console.log(error);
-    }
-  });
 
 module.exports = route;
