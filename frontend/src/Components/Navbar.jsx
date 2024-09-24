@@ -16,8 +16,8 @@ const Navbar = () => {
             </svg>
           </Link>
 
-          <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm ">
-            <svg
+           <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm ">
+             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -29,8 +29,9 @@ const Navbar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            Logout
-          </button>
+            Logout   
+             </button>
+          
         </div>
       </nav>
     </div>
