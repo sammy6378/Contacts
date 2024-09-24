@@ -24,6 +24,7 @@ cloudinary.config({
 //? POST contacts/add
 route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
   try {
+    const userId = req.userId;
     // Upload image to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(req.file.path);
 
@@ -51,7 +52,8 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
       email,
       number: fullNumber,
       address,
-      image: uploadResult.secure_url, // Store the Cloudinary image URL
+      image: uploadResult.secure_url, // Store the Cloudinary image URL,
+      userId
     });
 
     res.json({ success: true, data, message: "Contact added successfully" });
@@ -120,6 +122,7 @@ route.post("/delete/:id", authMiddleware, async (req, res) => {
   try {
   } catch (error) {}
 });
+ */
 
 //? GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
@@ -138,6 +141,6 @@ route.get("/list", authMiddleware, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-}); */
+});
 
 module.exports = route;
