@@ -6,8 +6,9 @@ export const AppContext = createContext();
 const ProviderFunction = (props) => {
     const url = 'http://localhost:5000';
     const [contacts, setContacts] = useState([])
+    const [token, setToken] = useState(null);
     return(
-        <AppContext.Provider value={{url, contacts, setContacts}}>
+        <AppContext.Provider value={{url, contacts, setContacts, token, setToken}}>
             {props.children}
         </AppContext.Provider>
     )
