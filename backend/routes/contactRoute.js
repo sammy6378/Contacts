@@ -53,7 +53,7 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
       number: fullNumber,
       address,
       image: uploadResult.secure_url, // Store the Cloudinary image URL,
-      userId
+      userId,
     });
 
     res.json({ success: true, data, message: "Contact added successfully" });
@@ -64,62 +64,73 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
 });
 
 //! POST contacts/edit/:id
-route.post('/edit/:id', upload.single('image'), authMiddleware, async (req, res) => {
-  try {
-    const userId = req.userId;
-    const id = req.params.id;
+route.post(
+  "/edit/:id",
+  upload.single("image"),
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const userId = req.userId;
+      const id = req.params.id;
 
-    const contact = await contactsModel.findOne({_id: id, userId});
+      const contact = await contactsModel.findOne({ _id: id, userId });
 
-    let newImageUrl = contact.image //keep a copy of the original image
-    if(req.file) {
-      const uploadedImage = await cloudinary.uploader.upload(req.file.path);
-      const oldImageUrl = contact.image;
-      if(oldImageUrl) {
-        const publicId = oldImageUrl.split('/').pop().split('.')[0];
-        await cloudinary.uploader.destroy(publicId);
+      let newImageUrl = contact.image; //keep a copy of the original image
+      if (req.file) {
+        const uploadedImage = await cloudinary.uploader.upload(req.file.path);
+        const oldImageUrl = contact.image;
+        if (oldImageUrl) {
+          const publicId = oldImageUrl.split("/").pop().split(".")[0];
+          await cloudinary.uploader.destroy(publicId);
+        }
+        newImageUrl = uploadedImage.secure_url;
       }
-      newImageUrl = uploadedImage.secure_url;
 
+      const data = await contactsModel.findByIdAndUpdate(
+        { _id: id, userId },
+        {
+          name: req.body.name,
+          email: req.body.email,
+          address: req.body.address,
+          number: req.body.number,
+          image: newImageUrl, //replace with the new image
+          updatedAt: Date.now(),
+        },
+        { new: true }
+      );
+
+      res.json({
+        success: true,
+        message: "Contact updated successfully",
+        data,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(404).json({ success: false, message: "Error Updating" });
     }
-
-    const data = await contactsModel.findByIdAndUpdate({_id: id, userId}, {
-      name: req.body.name,
-      email: req.body.email,
-      address: req.body.address,
-      number: req.body.number,
-      image: newImageUrl, //replace with the new image
-      updatedAt: Date.now()
-    }, {new: true})
-
-    res.json({success: true, message: "Contact updated successfully", data})
-  } catch (error) {
-    console.log(error);
-    res.status(404).json({success: false, message: "Error Updating"});
   }
-});
+);
 
 //! POST contacts/delete/:id
-route.post('/delete/:id', authMiddleware, async (req, res) => {
+route.post("/delete/:id", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
     const id = req.params.id;
     //delete the image from cloudinary first
-    const contact = await contactsModel.findOne({_id: id, userId});
+    const contact = await contactsModel.findOne({ _id: id, userId });
     const contactImage = contact.image;
-    if(contactImage) {
-      const publicId = contactImage.split('/').pop().split('.')[0];
+    if (contactImage) {
+      const publicId = contactImage.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(publicId);
     }
 
-    const data = await contactsModel.findByIdAndDelete({_id: id, userId});
-    res.json({success: true, message: "Contact Deleted Successfully", data})
-    
+    const data = await contactsModel.findByIdAndDelete({ _id: id, userId });
+    res.json({ success: true, message: "Contact Deleted Successfully", data });
   } catch (error) {
     console.log(error);
-    res.status(404).json({success: false, message: "Error Deleting Contact"});
+    res.status(404).json({ success: false, message: "Error Deleting Contact" });
   }
-})
+});
 
 //! GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
