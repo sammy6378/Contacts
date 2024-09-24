@@ -21,7 +21,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//? POST contacts/add
+//! POST contacts/add
 route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     const userId = req.userId;
@@ -63,66 +63,43 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
   }
 });
 
-/*
- //? POST contacts/edit/:id (with optional image upload)
-route.post("/edit/:id", authMiddleware, upload.single('image'), async (req, res) => {
-    try {
-      const id = req.params.id;
-      const userId = req.userId;
-  
-      // Find the existing contact
-      const contact = await contactsModel.findOne({ _id: id, userId });
-      if (!contact) {
-        return res.status(404).json({ success: false, message: "Contact not found" });
-      }
-  
-      let newImageUrl = contact.image; // Keep the old image URL unless a new one is uploaded
-  
-      // Check if a new image is uploaded
-      if (req.file) {
-        // Upload new image to Cloudinary
-        const uploadResult = await cloudinary.uploader.upload(req.file.path);
-  
-        // Delete the old image from Cloudinary if it exists
-        const oldImageUrl = contact.image;
-        if (oldImageUrl) {
-          // Extract the public ID from the URL (needed to delete the image from Cloudinary)
-          const publicId = oldImageUrl.split('/').pop().split('.')[0];
-          await cloudinary.uploader.destroy(publicId);
-        }
-  
-        // Set the new image URL
-        newImageUrl = uploadResult.secure_url;
-      }
-  
-      // Update the contact details, including the image URL if it was updated
-      const updatedContact = await contactsModel.findByIdAndUpdate(
-        { _id: id, userId },
-        {
-          name: req.body.name || contact.name,
-          email: req.body.email || contact.email,
-          number: req.body.number || contact.number,
-          address: req.body.address || contact.address,
-          image: newImageUrl, // Update image URL if a new image was uploaded
-          updatedAt: Date.now(),
-        },
-        { new: true }
-      );
-  
-      res.json({ success: true, message: "Contact successfully updated", data: updatedContact });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: "An error occurred" });
-    }
-  });
-  
-
-//POST contacts/delete/:id
-route.post("/delete/:id", authMiddleware, async (req, res) => {
+//! POST contacts/edit/:id
+route.post('/edit/:id', upload.single('image'), authMiddleware, async (req, res) => {
   try {
-  } catch (error) {}
+    const userId = req.userId;
+    const id = req.params.id;
+
+    const contact = await contactsModel.findOne({_id: id, userId});
+
+    let newImageUrl = contact.image //keep a copy of the original image
+    if(req.file) {
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path);
+      const oldImageUrl = contact.image;
+      if(oldImageUrl) {
+        const publicId = oldImageUrl.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
+      }
+      newImageUrl = uploadedImage.secure_url;
+
+    }
+
+    const data = await contactsModel.findByIdAndUpdate({_id: id, userId}, {
+      name: req.body.name,
+      email: req.body.email,
+      address: req.body.address,
+      number: req.body.number,
+      image: newImageUrl, //replace with the new image
+      updatedAt: Date.now()
+    }, {new: true})
+
+    res.json({success: true, message: "Contact updated successfully", data})
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({success: false, message: "Error Updating"});
+  }
 });
- */
+
+//! POST contacts/delete/:id
 
 //? GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
