@@ -100,8 +100,28 @@ route.post('/edit/:id', upload.single('image'), authMiddleware, async (req, res)
 });
 
 //! POST contacts/delete/:id
+route.post('/delete/:id', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const id = req.params.id;
+    //delete the image from cloudinary first
+    const contact = await contactsModel.findOne({_id: id, userId});
+    const contactImage = contact.image;
+    if(contactImage) {
+      const publicId = contactImage.split('/').pop().split('.')[0];
+      await cloudinary.uploader.destroy(publicId);
+    }
 
-//? GET contacts/list
+    const data = await contactsModel.findByIdAndDelete({_id: id, userId});
+    res.json({success: true, message: "Contact Deleted Successfully", data})
+    
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({success: false, message: "Error Deleting Contact"});
+  }
+})
+
+//! GET contacts/list
 route.get("/list", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
