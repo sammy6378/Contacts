@@ -7,7 +7,7 @@ import {toast} from 'react-toastify'
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isPassword, setIsPassword] = useState(true);
-  const {url, token,setToken} = useContext(AppContext)
+  const {url, setToken} = useContext(AppContext)
   const [data, setData] = useState({
     username: "",
     password: "",

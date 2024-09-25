@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 
 //? POST auth/login
-route.post('/login', async(req, res) => {
+/* route.post('/login', async(req, res) => {
     try {
         const {username, password} = req.body;
         const user = await authModel.findOne({username});
@@ -34,7 +34,7 @@ route.post('/login', async(req, res) => {
         console.log(error);
         res.json({success: false, message: "Error login' in"});
     }
-})
+}) */
 
 
 //? POST auth/register

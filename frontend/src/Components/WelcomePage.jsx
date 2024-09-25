@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
+import {toast} from 'react-toastify'
 
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
@@ -22,11 +23,14 @@ const WelcomePage = () => {
       if (response.data.success) {
         setContacts(response.data.data);
         console.log(response.data.data);
-        setLoading(false)
+        setLoading(false);
+      }
+      else {
+        console.log(response.data.message);
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   }
   return (
