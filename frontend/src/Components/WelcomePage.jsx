@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
-  const [isChecked, setIsChecked] = useState(false)
+ // const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -35,7 +35,21 @@ const WelcomePage = () => {
   }
 
   function handleCheck(id) {
-    
+    const updatedContacts = contacts.map(contact => {
+     if(contact._id === id) {
+      return {
+        ...contact, checked: !contact.checked
+      }
+     }
+     else {
+      return {
+        ...contact,
+        checked: contact.checked || false
+      }
+     }
+    })
+    setContacts(updatedContacts);
+    console.log(updatedContacts)
   }
   return (
     <div className="max-w-4xl mx-auto p-2">
@@ -56,7 +70,7 @@ const WelcomePage = () => {
                 key={item._id}
                 className="flex justify-between mb-5 border-b p-2 border-dashed border-slate-300"
               >
-                <input type="checkbox" name="check" id={`check-${item._id}`} onChange={() => handleCheck(item._id)} />
+                <input type="checkbox" name="check" id={`check-${item._id}`}  onChange={() => handleCheck(item._id)} checked={item.checked || false} />
                 <label
                   htmlFor={`check-${item._id}`}
                   className="flex items-center gap-[5%] flex-1 ml-5 cursor-pointer hover:text-slate-300"
