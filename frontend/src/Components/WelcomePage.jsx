@@ -54,7 +54,7 @@ const WelcomePage = () => {
         ) : (
           // Show this when there are no contacts
           <div className="bg-blue-500 rounded-lg text-white p-4">
-            Contact list empty...
+            Contact list empty. <br />Add new contacts or check your internet connection
           </div>
         )}
       </div>

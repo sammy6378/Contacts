@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-//? POST auth/login
 /* route.post('/login', async(req, res) => {
     try {
         const {username, password} = req.body;
@@ -35,6 +34,38 @@ const jwt = require('jsonwebtoken');
         res.json({success: false, message: "Error login' in"});
     }
 }) */
+
+//? POST auth/login
+route.post('/login', async(req, res) => {
+    try {
+        const {username, password} = req.body;
+        const user = await authModel.findOne({username});
+        //check for empty fields
+        if(username.trim() === "") {
+            return res.json({success: false, message: "username field empty"})
+        }
+        if(password.trim() === "") {
+            return res.json({success: false, message: "password field empty"})
+        }
+
+        if(!user) {
+            return res.json({success: false, message: "Invalid username.Try again"})
+        }
+
+        const isPasswordValid =await bcrypt.compare(password, user.password);
+        if(!isPasswordValid) {
+            return res.json({success: false, message: "Invalid password, try again"})
+        }
+
+        //setup token
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
+        res.json({success: true, token, message: "Login successful"})
+        
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Login error"});
+    }
+})
 
 
 //? POST auth/register
