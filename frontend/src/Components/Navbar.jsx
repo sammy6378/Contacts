@@ -12,12 +12,16 @@ const Navbar = () => {
               fill="currentColor"
               className="size-6"
             >
-              <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
+              <path
+                fillRule="evenodd"
+                d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                clipRule="evenodd"
+              />
             </svg>
           </Link>
 
-           <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm ">
-             <svg
+          <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm ">
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -29,9 +33,8 @@ const Navbar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            Logout   
-             </button>
-          
+            Logout
+          </button>
         </div>
       </nav>
     </div>
