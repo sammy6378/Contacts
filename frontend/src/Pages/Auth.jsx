@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import axios from 'axios';
 import { AppContext } from "../Components/Context/AppContext";
 import { useNavigate } from "react-router-dom";
+import {toast} from 'react-toastify'
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -36,11 +37,15 @@ const Auth = () => {
             const receivedToken = response.data.token;
             setToken(receivedToken);
             localStorage.setItem('token', receivedToken);
-            navigate('/')
+            navigate('/');
+            toast.success(response.data.message)
+        }
+        else {
+          toast.error(response.data.message);
         }
     } catch (error) {
         console.log(error);
-        alert('error loging in')
+        toast.error(error.message);
     }
   };
   return (

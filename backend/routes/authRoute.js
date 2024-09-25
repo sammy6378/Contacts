@@ -11,6 +11,13 @@ route.post('/login', async(req, res) => {
     try {
         const {username, password} = req.body;
         const user = await authModel.findOne({username});
+        if(username.trim() === "") {
+            return res.json({success: false, message: "username field empty"})
+        }
+        if(password.trim() === "") {
+            return res.json({success: false, message: "password field empty"})
+        }
+
         if(!user) {
             return res.json({success: false, message: "User not found"})
         }
@@ -24,7 +31,8 @@ route.post('/login', async(req, res) => {
         res.json({success: true, message: "Login Successful", token})
         
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.json({success: false, message: "Error login' in"});
     }
 })
 
@@ -56,13 +64,13 @@ route.post('/register', async(req, res) => {
         
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
 
-        res.json({success: true, token, message: "Register Successfull"});
+        res.json({success: true, token, message: "Account created successfully"});
         
     } catch (error) {
         if(error.code === 11000) {
           return  res.json({success: false, message: "User already exists"})
         }
-        res.json({success: false, message: "Server Error" + error.message});
+        res.json({success: false, message: "registration error" + error.message});
         
     }
 })

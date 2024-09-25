@@ -132,7 +132,7 @@ route.post("/delete/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//! GET contacts/list
+//! GET contacts/list 
 route.get("/list", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
