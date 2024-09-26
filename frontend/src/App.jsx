@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Auth from "./Pages/Auth";
@@ -9,19 +9,23 @@ import Add from "./Pages/Add";
 import SingleContact from "./Pages/SingleContact";
 
 const App = () => {
+  const isAuthenticated = () => {
+    return !!localStorage.getItem('token');
+  }
   return (
     <>
     <ToastContainer />  
     <div>
       <Routes>
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/" element={<Navigate to={isAuthenticated() ? '/home' : "/auth"} replace />} />
+        <Route path="/auth" element={isAuthenticated ? <Navigate to={'/home'} replace /> : <Auth />} />
         <Route
           path="/*"
           element={
             <>
-              <Navbar />
-              <Routes>
-                 <Route path="/" element={<Home />} />
+              <Navbar /> 
+              <Routes> 
+                 <Route path="/home" element={<Home />} />
                  <Route path="/edit/:id" element={<Edit />} />
                  <Route path="/add" element={<Add />} />
                  <Route path="/contact/:id" element={<SingleContact />} />

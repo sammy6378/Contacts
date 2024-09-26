@@ -35,7 +35,7 @@ const Add = () => {
       });
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate("/");
+        navigate("/home");
       }
       else {
         toast.error(response.data.message)

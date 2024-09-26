@@ -61,7 +61,7 @@ const Edit = () => {
       );
       if(response.data.success) {
         toast.success(response.data.message);
-        navigate('/')
+        navigate('/home')
       }
     } catch (error) {
       console.log(error);

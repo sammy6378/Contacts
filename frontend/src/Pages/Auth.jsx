@@ -37,7 +37,7 @@ const Auth = () => {
             const receivedToken = response.data.token;
             setToken(receivedToken);
             localStorage.setItem('token', receivedToken);
-            navigate('/');
+            navigate('/home');
             toast.success(response.data.message)
         }
         else {
