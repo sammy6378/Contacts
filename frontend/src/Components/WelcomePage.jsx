@@ -16,7 +16,6 @@ const WelcomePage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-  //const id = useParams();
 
   async function fetchContacts() {
     setLoading(true);
@@ -108,7 +107,7 @@ const WelcomePage = () => {
                   />
                   <p className="text-sm">{item.name}</p>
                 </label>
-                <div className={`flex gap-2 ml-4 ${item.checked ? '' : 'hidden'}`}>
+                <div className={`flex flex-row-reverse bg-slate-800 items-center px-2 rounded-md gap-2 ml-4 ${item.checked ? '' : 'hidden'}`}>
                   {/* delete button */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
