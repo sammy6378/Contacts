@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Components/Context/AppContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Edit = () => {
   const { url, token } = useContext(AppContext);
   const { id } = useParams();
+  const navigate = useNavigate()
   const [data, setData] = useState({
     name: "",
     number: "",
@@ -43,22 +45,45 @@ const Edit = () => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("name", data.name);
+    formData.append("number", data.number);
+    formData.append("email", data.email);
+    formData.append("address", formData.address);
+    try {
+      const response = await axios.post(
+        `${url}/contacts/edit/${id}`,
+        formData,
+        { headers: { token } }
+      );
+      if(response.data.success) {
+        toast.success(response.data.message);
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to submit.Try again");
+    }
+  };
+
   return (
     <div className="h-screen flex items-center max-w-4xl mx-auto w-[90%]">
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2 className="text-2xl mb-5 bg-slate-200 w-fit p-2">Edit Contact</h2>
-        <div className="mb-4">
+        <div className="mb-4 w-fit">
           <label htmlFor="image" className="mb-3">
             {image ? (
-              typeof image === 'string' ? (
+              typeof image === "string" ? (
                 <img src={image} className="w-[100px] h-[60px] object-cover" />
               ) : (
-                  <img
-                src={URL.createObjectURL(image)}
-                className="w-[100px] h-[60px] object-cover"
-              />
+                <img
+                  src={URL.createObjectURL(image)}
+                  className="w-[100px] h-[60px] object-cover"
+                />
               )
-            
             ) : (
               <div className="bg-slate-200 w-[100px] h-[60px] flex flex-col items-center border border-black">
                 <svg
