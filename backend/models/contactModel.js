@@ -13,14 +13,14 @@ const contactSchema = new Schema({
         type: String,
         required: true,
     },
+    address: {
+        type: String,
+        required: true,
+    },
     number: {
         type: String,
         required: true,
         unique: true,
-    },
-    address: {
-        type: String,
-        required: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

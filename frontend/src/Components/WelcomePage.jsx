@@ -109,7 +109,7 @@ const WelcomePage = () => {
                   checked={item.checked || false}
                 />
                 <label
-                  htmlFor={`check-${item._id}`}
+                  htmlFor={``}
                   className="flex items-center gap-[5%] flex-1 ml-5 cursor-pointer hover:text-slate-300"
                 >
                   <img
