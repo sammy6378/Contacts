@@ -5,24 +5,53 @@ const Edit = () => {
     name: "",
     number: "",
     email: "",
-    address: ""
+    address: "",
   });
+  const [image, setImage] = useState(null);
 
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setData(prevData => ({...prevData, [name]: value}));
-  }
-  
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   return (
     <div className="h-screen flex items-center max-w-4xl mx-auto w-[90%]">
       <form>
         <h2 className="text-2xl mb-5 bg-slate-200 w-fit p-2">Edit Contact</h2>
-        <div>
+        <div className="mb-4">
           <label htmlFor="image" className="mb-3">
-            Choose Image
+            {image ? (
+              <img src={URL.createObjectURL(image)} className="w-[100px] h-[60px] object-cover" />
+            ): (
+               <div className="bg-slate-200 w-[100px] h-[60px] flex flex-col items-center border border-black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6 text-gray-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+                />
+              </svg>
+              <span className="text-gray-400">upload</span>
+            </div> 
+            )}
+          
           </label>
-          <input type="file" name="image" id="image" className="w-full mb-3 " hidden/>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            className="w-full mb-3"
+            onChange={(e) => setImage(e.target.files[0])}
+            hidden
+          />
         </div>
 
         <label htmlFor="name">Contact name: </label>
