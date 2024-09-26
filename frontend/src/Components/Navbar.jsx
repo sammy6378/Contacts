@@ -28,11 +28,7 @@ const Navbar = () => {
             </svg>
           </Link>
 
-<<<<<<< HEAD
-          <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm "  onClick={handleLogout}>
-=======
           <button className="flex items-center uppercase border-2 border-red-500 p-0.5 rounded-md text-sm " onClick={handleLogout}>
->>>>>>> 0ffa70653770fb9937c704b418221defd6efeb36
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
