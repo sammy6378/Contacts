@@ -27,7 +27,7 @@ const Edit = () => {
           name: contactData.name,
           number: contactData.number,
           email: contactData.email,
-          address: contactData.address,
+          address: contactData?.address,
         });
 
         // If an image exists, set it in the image state

@@ -21,7 +21,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//! POST contacts/add
+//! POST contacts/add 
 route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     const userId = req.userId;
@@ -35,7 +35,7 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
 
     // Check if any required field is missing
     const { name, email, number, address } = req.body;
-    if (name.trim() === "" || email.trim() === "" || address.trim() === "") {
+    if (name.trim() === "" || email.trim() === "") {
       return res.json({
         success: false,
         message: "Check for empty input fields",
@@ -96,7 +96,7 @@ route.post(
         {
           name: req.body.name,
           email: req.body.email,
-          address: req.body.address,
+          address: req.body.address || null,
           number: req.body.number,
           image: newImageUrl, //replace with the new image
           updatedAt: Date.now(),

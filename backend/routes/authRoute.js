@@ -4,6 +4,7 @@ const authModel = require('../models/authModel');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authMiddleware = require('../middleware/authMiddleware');
 
 //? POST auth/login
 route.post('/login', async(req, res) => {
@@ -76,5 +77,21 @@ route.post('/register', async(req, res) => {
     }
 })
 
+//auth/user
+route.get('/user', authMiddleware, async(req, res) => {
+    try {
+        const userId = req.userId;
+        const data = await authModel.findById(userId);
+        if(!username) {
+            return res.json({success: false, message: "User"})
+        }
+
+        res.json({success: true, data})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: "Error getting username"});
+    }
+})
 
 module.exports = route;

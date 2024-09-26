@@ -1,12 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../Components/Context/AppContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Add = () => {
   const { url, token } = useContext(AppContext);
-  const { id } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
