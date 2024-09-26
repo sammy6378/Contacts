@@ -1,6 +1,11 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../Components/Context/AppContext";
+import { useParams } from "react-router-dom";
 
 const Edit = () => {
+  const { url, token } = useContext(AppContext);
+  const { id } = useParams();
   const [data, setData] = useState({
     name: "",
     number: "",
@@ -9,6 +14,15 @@ const Edit = () => {
   });
   const [image, setImage] = useState(null);
 
+  useEffect(() => {
+    async function fetchContact() {
+      const response = await axios.get(`${url}/contacts/${id}`, {headers: {token}});
+      if(response.data.success) {
+        setData(response.data.data)
+      }
+    }
+    fetchContact()
+  }, []);
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -69,7 +83,7 @@ const Edit = () => {
 
         <label htmlFor="number">Contact Phone Number: </label>
         <input
-          type="number"
+          type="string"
           name="number"
           id="number"
           placeholder="7-00-000-000"

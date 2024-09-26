@@ -156,4 +156,17 @@ route.get("/list", authMiddleware, async (req, res) => {
   }
 });
 
+//! contacts/:id
+route.get('/:id', authMiddleware, async(req, res) => {
+  try {
+    const id = req.params.id;
+    const userId = req.userId;
+    const data = await contactsModel.findOne({_id: id, userId});
+    res.json({success: true, data});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({success: false, message: "Failed to fetch contact"});
+  }
+})
+
 module.exports = route;

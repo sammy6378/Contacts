@@ -85,7 +85,7 @@ const WelcomePage = () => {
       <div className="mt-20">
         <h2 className="text-center font-medium text-lg">My Contacts</h2>
         <div className="flex justify-end my-5">
-          <button className="bg-green-500 text-white px-2 py-2 uppercase rounded-md w-[100px]">
+          <button className="bg-green-500 text-white px-2 py-2 uppercase rounded-md w-[100px]" onClick={() => navigate(`/add`)}>
             Add+
           </button>
         </div>

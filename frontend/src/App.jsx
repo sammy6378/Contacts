@@ -5,11 +5,12 @@ import Auth from "./Pages/Auth";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Edit from './Pages/Edit';
+import Add from "./Pages/Add";
 
 const App = () => {
   return (
     <>
-    <ToastContainer />
+    <ToastContainer />  
     <div>
       <Routes>
         <Route path="/auth" element={<Auth />} />
@@ -21,6 +22,7 @@ const App = () => {
               <Routes>
                  <Route path="/" element={<Home />} />
                  <Route path="/edit/:id" element={<Edit />} />
+                 <Route path="/add" element={<Add />} />
               </Routes>
              
             </>
