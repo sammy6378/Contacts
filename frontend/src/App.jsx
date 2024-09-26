@@ -18,7 +18,7 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<Navigate to={isAuthenticated() ? '/home' : "/auth"} replace />} />
-        <Route path="/auth" element={isAuthenticated ? <Navigate to={'/home'} replace /> : <Auth />} />
+        <Route path="/auth" element={isAuthenticated() ? <Navigate to={'/home'} replace /> : <Auth />} />
         <Route
           path="/*"
           element={
