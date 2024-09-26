@@ -16,13 +16,27 @@ const Edit = () => {
 
   useEffect(() => {
     async function fetchContact() {
-      const response = await axios.get(`${url}/contacts/${id}`, {headers: {token}});
-      if(response.data.success) {
-        setData(response.data.data)
+      const response = await axios.get(`${url}/contacts/${id}`, {
+        headers: { token },
+      });
+      if (response.data.success) {
+        const contactData = response.data.data;
+        setData({
+          name: contactData.name,
+          number: contactData.number,
+          email: contactData.email,
+          address: contactData.address,
+        });
+
+        // If an image exists, set it in the image state
+        if (contactData.image) {
+          setImage(contactData.image); // Set the URL as the image state
+        }
       }
     }
-    fetchContact()
-  }, []);
+    fetchContact();
+  }, [id, token, url]);
+
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -36,10 +50,15 @@ const Edit = () => {
         <div className="mb-4">
           <label htmlFor="image" className="mb-3">
             {image ? (
-              <img
+              typeof image === 'string' ? (
+                <img src={image} className="w-[100px] h-[60px] object-cover" />
+              ) : (
+                  <img
                 src={URL.createObjectURL(image)}
                 className="w-[100px] h-[60px] object-cover"
               />
+              )
+            
             ) : (
               <div className="bg-slate-200 w-[100px] h-[60px] flex flex-col items-center border border-black">
                 <svg
