@@ -26,7 +26,12 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     const userId = req.userId;
     // Upload image to Cloudinary
-    const uploadResult = await cloudinary.uploader.upload(req.file.path);
+    let imageUrl = "";
+    if(req.file) {
+         const uploadResult = await cloudinary.uploader.upload(req.file.path);
+         imageUrl = uploadResult.secure_url 
+    }
+
 
     // Check if any required field is missing
     const { name, email, number, address } = req.body;
@@ -52,7 +57,7 @@ route.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
       email,
       number: fullNumber,
       address,
-      image: uploadResult.secure_url, // Store the Cloudinary image URL,
+      image: imageUrl, // Store the Cloudinary image URL,
       userId,
     });
 
