@@ -16,7 +16,7 @@ const SingleContact = () => {
                 const response = await axios.get(`${url}/contacts/${id}`, {headers: {token}})
                 if(response.data.success) {
                     setSingleContact(response.data.data);
-                    console.log(response.data.data)
+                    //console.log(response.data.data)
                 }
                 else {
                     toast.error(response.data.message)
