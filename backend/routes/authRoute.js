@@ -77,12 +77,12 @@ route.post('/register', async(req, res) => {
     }
 })
 
-//auth/user
+//? auth/user
 route.get('/user', authMiddleware, async(req, res) => {
     try {
         const userId = req.userId;
         const data = await authModel.findById(userId);
-        if(!username) {
+        if(!data) {
             return res.json({success: false, message: "User"})
         }
 

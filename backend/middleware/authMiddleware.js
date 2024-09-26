@@ -1,19 +1,18 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const authMiddleware = async (req,res, next) => {
-    try {
-        const token = req.headers.token;
-        if(!token) {
-            return res.json({success: false, message: "Authentication failed"});
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.userId;
-        next();
-        
-    } catch (error) {
-        console.log();
+const authMiddleware = async (req, res, next) => {
+  try {
+    const token = req.headers.token;
+    if (!token) {
+      return res.json({ success: false, message: "Authentication failed" });
     }
-}
 
-module.exports = authMiddleware; 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.userId;
+    next();
+  } catch (error) {
+    console.log();
+  }
+};
+
+module.exports = authMiddleware;
