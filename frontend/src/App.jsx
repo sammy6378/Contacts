@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Auth from "./Pages/Auth";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Edit from './Pages/Edit';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
               <Navbar />
               <Routes>
                  <Route path="/" element={<Home />} />
+                 <Route path="/edit/:id" element={<Edit />} />
               </Routes>
              
             </>

@@ -2,12 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
  // const [isChecked, setIsChecked] = useState(false);
+ const navigate = useNavigate()
 
   useEffect(() => {
     if (token) {
@@ -73,9 +74,6 @@ const WelcomePage = () => {
     }
   }
 
-  async function handleEdit() {
-
-  }
   return (
     <div className="max-w-4xl mx-auto p-2">
       <h2 className="uppercase text-center font-medium text-xl font-serif">
@@ -132,7 +130,7 @@ const WelcomePage = () => {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     className="size-5 cursor-pointer hover:text-slate-300 text-green-400"
-                    onClick={handleEdit}
+                    onClick={() => navigate(`/edit/${item._id}`)}
                   >
                     <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                   </svg>
