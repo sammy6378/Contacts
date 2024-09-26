@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
- // const [isChecked, setIsChecked] = useState(false);
- const navigate = useNavigate()
+  // const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -37,39 +37,42 @@ const WelcomePage = () => {
   }
 
   function handleCheck(id) {
-    const updatedContacts = contacts.map(contact => {
-     if(contact._id === id) {
-      return {
-        ...contact, checked: !contact.checked
+    const updatedContacts = contacts.map((contact) => {
+      if (contact._id === id) {
+        return {
+          ...contact,
+          checked: !contact.checked,
+        };
+      } else {
+        return {
+          ...contact,
+          checked: contact.checked || false,
+        };
       }
-     }
-     else {
-      return {
-        ...contact,
-        checked: contact.checked || false
-      }
-     }
-    })
+    });
     setContacts(updatedContacts);
-   // console.log(updatedContacts);
+    // console.log(updatedContacts);
   }
 
   async function handleDelete(id) {
-    if(!window.confirm("Are you sure you want to delete this contact")) {
+    if (!window.confirm("Are you sure you want to delete this contact")) {
       return;
     }
     try {
-      const response = await axios.post(`${url}/contacts/delete/${id}`, {}, {headers: {token}})
-      if(response?.data?.success) {
+      const response = await axios.post(
+        `${url}/contacts/delete/${id}`,
+        {},
+        { headers: { token } }
+      );
+      if (response?.data?.success) {
         toast.success(response?.data?.message);
         fetchContacts();
-      }
-      else {
+      } else {
         alert(response.data.message);
       }
     } catch (error) {
       console.log(error);
-      alert("Delete failed!")
+      alert("Delete failed!");
     }
   }
 
@@ -81,6 +84,12 @@ const WelcomePage = () => {
 
       <div className="mt-20">
         <h2 className="text-center font-medium text-lg">My Contacts</h2>
+        <div className="flex justify-end my-5">
+          <button className="bg-green-500 text-white px-2 py-2 uppercase rounded-md w-[100px]">
+            Add+
+          </button>
+        </div>
+
         {loading ? (
           // Show this while loading
           <div className="text-center h-screen">Loading...</div>
@@ -92,7 +101,13 @@ const WelcomePage = () => {
                 key={item._id}
                 className="flex justify-between mb-5 border-b p-2 border-dashed border-slate-300"
               >
-                <input type="checkbox" name="check" id={`check-${item._id}`}  onChange={() => handleCheck(item._id)} checked={item.checked || false} />
+                <input
+                  type="checkbox"
+                  name="check"
+                  id={`check-${item._id}`}
+                  onChange={() => handleCheck(item._id)}
+                  checked={item.checked || false}
+                />
                 <label
                   htmlFor={`check-${item._id}`}
                   className="flex items-center gap-[5%] flex-1 ml-5 cursor-pointer hover:text-slate-300"
@@ -107,7 +122,9 @@ const WelcomePage = () => {
                   />
                   <p className="text-sm">{item.name}</p>
                 </label>
-                <div className={`flex flex-row-reverse bg-slate-800 items-center px-2 rounded-md gap-2 ml-4 ${item.checked ? '' : 'hidden'}`}>
+                <div
+                  className={`flex flex-row-reverse bg-slate-800 items-center px-2 rounded-md gap-2 ml-4 ${item.checked ? "" : "hidden"}`}
+                >
                   {/* delete button */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
