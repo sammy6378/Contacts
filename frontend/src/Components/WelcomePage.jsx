@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
@@ -14,6 +15,7 @@ const WelcomePage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
+  //const id = useParams();
 
   async function fetchContacts() {
     setLoading(true);
@@ -49,7 +51,30 @@ const WelcomePage = () => {
      }
     })
     setContacts(updatedContacts);
-    console.log(updatedContacts)
+   // console.log(updatedContacts);
+  }
+
+  async function handleDelete(id) {
+    if(!window.confirm("Are you sure you want to delete this contact")) {
+      return;
+    }
+    try {
+      const response = await axios.post(`${url}/contacts/delete/${id}`, {}, {headers: {token}})
+      if(response?.data?.success) {
+        toast.success(response?.data?.message);
+        fetchContacts();
+      }
+      else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Delete failed!")
+    }
+  }
+
+  async function handleEdit() {
+
   }
   return (
     <div className="max-w-4xl mx-auto p-2">
@@ -85,13 +110,14 @@ const WelcomePage = () => {
                   />
                   <p className="text-sm">{item.name}</p>
                 </label>
-                <div className="flex gap-2 ml-4">
+                <div className={`flex gap-2 ml-4 ${item.checked ? '' : 'hidden'}`}>
                   {/* delete button */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     className="size-5 text-red-400 hover:opacity-75 cursor-pointer"
+                    onClick={() => handleDelete(item._id)}
                   >
                     <path
                       fillRule="evenodd"
@@ -106,6 +132,7 @@ const WelcomePage = () => {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     className="size-5 cursor-pointer hover:text-slate-300 text-green-400"
+                    onClick={handleEdit}
                   >
                     <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                   </svg>
