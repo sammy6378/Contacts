@@ -10,15 +10,15 @@ import SingleContact from "./Pages/SingleContact";
 
 const App = () => {
   const isAuthenticated = () => {
-    return !!localStorage.getItem('token');
+    return
   }
   return (
     <>
     <ToastContainer />  
     <div>
       <Routes>
-        <Route path="/" element={<Navigate to={isAuthenticated() ? '/home' : "/auth"} replace />} />
-        <Route path="/auth" element={isAuthenticated() ? <Navigate to={'/home'} replace /> : <Auth />} />
+        <Route path="/" element={<Navigate to={'/auth'} replace />} />
+        <Route path="/auth" element={<Auth />} />
         <Route
           path="/*"
           element={
