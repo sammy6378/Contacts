@@ -13,7 +13,7 @@ const Navbar = () => {
     <div>
       <nav className="bg-blue-500 text-white p-2">
         <div className="flex justify-between items-center max-w-4xl mx-auto">
-          <Link to={"/"}>
+          <Link to={"/home"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
