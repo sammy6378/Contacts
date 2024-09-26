@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const { url, contacts, setContacts, token } = useContext(AppContext);
@@ -108,8 +108,8 @@ const WelcomePage = () => {
                   onChange={() => handleCheck(item._id)}
                   checked={item.checked || false}
                 />
-                <label
-                  htmlFor={``}
+                <Link
+                  to={`/contact/${item._id}`}
                   className="flex items-center gap-[5%] flex-1 ml-5 cursor-pointer hover:text-slate-300"
                 >
                   <img
@@ -121,7 +121,7 @@ const WelcomePage = () => {
                     className="size-8 rounded-full"
                   />
                   <p className="text-sm">{item.name}</p>
-                </label>
+                </Link>
                 <div
                   className={`flex flex-row-reverse bg-slate-800 items-center px-2 rounded-md gap-2 ml-4 ${item.checked ? "" : "hidden"}`}
                 >

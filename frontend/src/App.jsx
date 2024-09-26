@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Edit from './Pages/Edit';
 import Add from "./Pages/Add";
+import SingleContact from "./Pages/SingleContact";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
                  <Route path="/" element={<Home />} />
                  <Route path="/edit/:id" element={<Edit />} />
                  <Route path="/add" element={<Add />} />
+                 <Route path="/contact/:id" element={<SingleContact />} />
               </Routes>
              
             </>
