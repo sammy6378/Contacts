@@ -24,6 +24,10 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/contacts", contactRoute);
 
+app.get('/', (req, res) => {
+    res.json("Hello")
+})
+
 app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
