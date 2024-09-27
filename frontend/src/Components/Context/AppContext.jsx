@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const AppContext = createContext();
 
 const ProviderFunction = (props) => {
-    const url = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const url = 'https://contactsbackend.vercel.app'
 
     const [contacts, setContacts] = useState([])
     const [token, setToken] = useState(null);
