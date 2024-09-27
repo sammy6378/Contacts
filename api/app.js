@@ -9,12 +9,12 @@ mongoose
   .connect(process.env.MONGODBURI)
   .then(() => console.log(`Database connected: ${mongoose.connection.host}`))
   .catch((error) => console.log(error.message));
-const allowedOrigins = ["https://contacts-client-vert.vercel.app"];
+
 //END OF IMPORTS
 app.use(
   cors({
-    origin: allowedOrigins,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed HTTP methods
+    origin: ["https://contacts-client-vert.vercel.app"],
+    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"], 
     credentials: true, // Include cookies and HTTP authentication
   })
 );
