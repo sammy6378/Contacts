@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 export const AppContext = createContext();
 
 const ProviderFunction = (props) => {
-    const url = 'http://localhost:5000';
+    const url = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
     const [contacts, setContacts] = useState([])
     const [token, setToken] = useState(null);
     const navigate = useNavigate()
