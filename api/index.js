@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 const authRoute = require("./routes/authRoute");
 const contactRoute = require("./routes/contactRoute");
@@ -11,13 +11,14 @@ mongoose
   .catch((error) => console.log(error.message));
 
 //END OF IMPORTS
-app.use(
+/* app.use(
   cors({
     origin: ["https://contacts-frontend.vercel.app/"],
     methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"], 
     credentials: true, // Include cookies and HTTP authentication
   })
-);
+); */
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
