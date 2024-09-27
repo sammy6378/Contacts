@@ -13,7 +13,7 @@ mongoose
 //END OF IMPORTS
 app.use(
   cors({
-    origin: ["https://contacts-client-vert.vercel.app"],
+    origin: ["https://contacts-frontend.vercel.app/"],
     methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"], 
     credentials: true, // Include cookies and HTTP authentication
   })
