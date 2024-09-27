@@ -45,4 +45,7 @@ app.get('/', (req, res) => {
 });
 
 // Export the app for Vercel
-module.exports = app;
+//module.exports = app;
+app.listen(5000, () => {
+  console.log(`Server is listening on port 5000`)
+})
