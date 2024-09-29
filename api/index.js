@@ -12,7 +12,7 @@ if (!mongodbURI) {
   process.exit(1); // Exit the application if no URI is provided
 }
 const dotenv = require("dotenv");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 // Load environment variables from .env file
 dotenv.config();
 // Import your routes
