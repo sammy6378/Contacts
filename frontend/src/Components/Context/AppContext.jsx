@@ -7,6 +7,7 @@ export const AppContext = createContext();
 const ProviderFunction = (props) => {
     const url = import.meta.env.VITE_API_URL;
 
+
     const [contacts, setContacts] = useState([])
     const [token, setToken] = useState(null);
     const navigate = useNavigate()
