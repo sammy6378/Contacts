@@ -4,19 +4,17 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const PORT = process.env.PORT;
-// Load environment variables from .env file
 dotenv.config();
-// Import your routes
+//END OF IMPORTS
+
 const authRoute = require("./routes/authRoute");
 const contactRoute = require("./routes/contactRoute");
 
 // Check if the MongoDB URI is defined
 if (!process.env.MONGODBURI) {
   console.error("Error: MongoDB URI is not defined in environment variables.");
-  process.exit(1); // Exit the application if no URI is provided
+  process.exit(1); 
 }
-
-// MongoDB connection
 mongoose
   .connect(process.env.MONGODBURI, {
     useNewUrlParser: true,
@@ -25,7 +23,7 @@ mongoose
   .then(() => console.log(`Database connected: ${mongoose.connection.host}`))
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error.message);
-    process.exit(1); // Exit if there’s an error connecting to the database
+    process.exit(1); 
   });
 
 // Middleware
