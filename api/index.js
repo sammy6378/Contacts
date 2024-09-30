@@ -26,8 +26,14 @@ mongoose
     process.exit(1); 
   });
 
-// Middleware
-app.use(cors()); // Allows all origins for testing purposes, you can restrict this later
+  const corsOptions = {
+    origin: 'https://contacts-frontend.vercel.app', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+  
+  // Middleware
+  app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
