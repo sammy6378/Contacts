@@ -38,7 +38,13 @@ mongoose
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.options('*', cors()); //add pre-flight requests
+app.options('*', (req, res) => {
+  console.log('Received OPTIONS request:', req.headers);
+  res.header('Access-Control-Allow-Origin', 'https://contacts-frontend.vercel.app'); // Your frontend URL
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Add any other headers you might use
+  res.sendStatus(200); // Send OK status for OPTIONS requests
+});
 
 // Routes
 app.use("/auth", authRoute);
