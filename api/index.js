@@ -38,6 +38,8 @@ mongoose
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.options('*', cors()); //add pre-flight requests
+
 // Routes
 app.use("/auth", authRoute);
 app.use("/contacts", contactRoute);
