@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 // Load environment variables from .env file
 dotenv.config();
 // Import your routes
