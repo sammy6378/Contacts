@@ -27,7 +27,7 @@ mongoose
   });
 
   const corsOptions = {
-    origin: 'https://contacts-frontend.vercel.app', 
+    origin: 'https://contacts-frontend-ecru.vercel.app/', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
@@ -40,7 +40,7 @@ app.use(express.json());
 
 app.options('*', (req, res) => {
   console.log('Received OPTIONS request:', req.headers);
-  res.header('Access-Control-Allow-Origin', 'https://contacts-frontend.vercel.app'); // Your frontend URL
+  res.header('Access-Control-Allow-Origin', 'https://contacts-frontend-ecru.vercel.app/'); // Your frontend URL
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Add any other headers you might use
   res.sendStatus(200); // Send OK status for OPTIONS requests
