@@ -60,7 +60,7 @@
 // });
 
 
-// Imports
+/// Imports
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -104,14 +104,6 @@ app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Handle OPTIONS requests
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.sendStatus(200);
-});
 
 // Routes
 app.use("/auth", authRoute);
