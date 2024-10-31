@@ -1,8 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import PropTypes from 'prop-types'
 import { useNavigate } from "react-router-dom";
-
-export const AppContext = createContext();
+import { AppContext } from "./Context";
 
 const ProviderFunction = (props) => {
     const url = import.meta.env.VITE_API_URL;

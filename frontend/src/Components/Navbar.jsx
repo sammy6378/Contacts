@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppContext } from "./Context/AppContext";
+import { AppContext } from "./Context/Context";
 
 const Navbar = () => {
   const {token} = useContext(AppContext);
