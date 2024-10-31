@@ -91,16 +91,29 @@ async function connectToDatabase() {
 }
 
 // CORS Configuration
-const corsOptions = {
-  origin: 'https://contacts-frontend-ecru.vercel.app',
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: 'https://contacts-frontend-ecru.vercel.app',
+//   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//   credentials: true,
+// };
+
+const allowedOrigin = process.env.NODE_ENV === 'production'
+  ? 'https://contacts-frontend-ecru.vercel.app/' // Deployed frontend URL
+  : 'http://localhost:5173'; // Local development URL
+
+app.use('*', cors({
+  origin: allowedOrigin,
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin'],
+  exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
+  maxAge: 600
+}));
+
 
 // Express App Setup
 const app = express();
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
