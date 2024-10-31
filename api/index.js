@@ -7,19 +7,16 @@ const dotenv = require("dotenv");
 // Environment variables
 dotenv.config();
 
-// Constants
-const PORT = process.env.PORT;
-
 // Routes
 const authRoute = require("./routes/authRoute");
 const contactRoute = require("./routes/contactRoute");
 
 // Express App Setup
-const app = express(); // Initialize 'app' first
+const app = express();
 
 // CORS Configuration
 const allowedOrigin = process.env.NODE_ENV === 'production'
-  ? 'https://contacts-frontend-ecru.vercel.app/' // Deployed frontend URL
+  ? 'https://contacts-frontend-ecru.vercel.app' // Deployed frontend URL (remove trailing slash)
   : 'http://localhost:5173'; // Local development URL
 
 app.use(cors({
@@ -57,9 +54,8 @@ async function connectToDatabase() {
   }
 }
 
-// Start the server
-connectToDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-  });
-});
+// Initialize database connection without listening on a specific port (handled by Vercel)
+connectToDatabase();
+
+// Export the app for serverless deployment
+module.exports = app;
